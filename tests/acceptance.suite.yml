@@ -1,0 +1,53 @@
+# Codeception Test Suite Configuration
+#
+# Suite for acceptance tests.
+# Perform tests in browser using the WebDriver or PhpBrowser.
+# If you need both WebDriver and PHPBrowser tests - create a separate suite.
+
+class_name: AcceptanceTester
+modules:
+    enabled:
+        - WebDriver:
+            url:
+            browser: chrome # chrome or firefox
+            host: 127.0.0.1
+            port: 4444
+            #            restart: true
+            minimize: true
+            window_size: 1519x1000
+            clear_cookies: true
+            wait: 30
+            implicitly_wait: 5
+            capabilities:
+                timeoutInSeconds: 5
+                chromeOptions:
+                    excludeSwitches: ['enable-automation']
+                    w3c: false
+            connection_timeout: 10
+            request_timeout: 300
+
+
+env:
+    parallel:
+        modules:
+            enabled:
+                - \Helper\Acceptance
+                - WebDriver:
+                    url: __url_template__
+                    browser: chrome # chrome/firefox/safari
+                    host: hub-cloud.browserstack.com
+                    port: 80
+                    restart: true
+                    minimize: true
+                    window_size: 1519x1000
+                    wait: 30
+                    implicitly_wait: 5
+                    capabilities:
+                        browser_version: latest
+                        browserstack.user:
+                        browserstack.key:
+                        name: Bstack-[Codeception]
+                        browserstack.debug: true
+                        acceptSslCerts: true
+                        build: __build_name__
+                        timeoutInSeconds: 5
